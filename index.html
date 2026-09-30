@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Ajar Interaktif IPA IX - Tekanan Zat Cair</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            800: '#0c4a6e',
+                            900: '#0a3651',
+                        },
+                        accent: {
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts Inter & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .tab-btn.active {
+            background-color: #0284c7;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col justify-between selection:bg-sky-500 selection:text-white">
+
+    <!-- Top Header & Navigation -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <!-- Logo & Title -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('pendahuluan')">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-sky-600 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-sky-500/20">
+                        <i class="fa-solid font-bold text-xl sm:text-2xl fa-water"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block">IPA Kelas IX SMP/MTs</span>
+                        <h1 class="text-lg sm:text-xl font-black text-slate-800 tracking-tight leading-none">Tekanan Zat Cair (Fluida)</h1>
+                    </div>
+                </div>
+
+                <!-- Author Badge Header (Desktop) -->
+                <div class="hidden md:flex items-center bg-sky-50 border border-sky-200 rounded-full py-1.5 px-4 space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                        MK
+                    </div>
+                    <div class="text-left">
+                        <p class="text-xs font-bold text-slate-800">Mohamad Kholish Widodo, S.Pd., M.Pd.</p>
+                        <p class="text-[10px] text-sky-700 font-medium">MTsN 1 Kota Malang</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation Buttons -->
+            <nav class="flex space-x-1 sm:space-x-2 overflow-x-auto pb-2 scrollbar-none text-xs sm:text-sm font-semibold">
+                <button onclick="switchTab('pendahuluan')" id="tab-pendahuluan" class="tab-btn active px-4 py-2.5 rounded-xl transition-all duration-200 flex items-center space-x-2 whitespace-nowrap">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Pendahuluan</span>
+                </button>
+                <button onclick="switchTab('materi')" id="tab-materi" class="tab-btn px-4 py-2.5 rounded-xl transition-all duration-200 flex items-center space-x-2 text-slate-600 hover:bg-slate-100 whitespace-nowrap">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Materi & Konsep</span>
+                </button>
+                <button onclick="switchTab('lab')" id="tab-lab" class="tab-btn px-4 py-2.5 rounded-xl transition-all duration-200 flex items-center space-x-2 text-slate-600 hover:bg-slate-100 whitespace-nowrap">
+                    <i class="fa-solid fa-flask"></i>
+                    <span>Lab Virtual</span>
+                </button>
+                <button onclick="switchTab('kuis')" id="tab-kuis" class="tab-btn px-4 py-2.5 rounded-xl transition-all duration-200 flex items-center space-x-2 text-slate-600 hover:bg-slate-100 whitespace-nowrap">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span>Kuis Interaktif</span>
+                </button>
+                <button onclick="switchTab('penyusun')" id="tab-penyusun" class="tab-btn px-4 py-2.5 rounded-xl transition-all duration-200 flex items-center space-x-2 text-slate-600 hover:bg-slate-100 whitespace-nowrap">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    <span>Identitas Penyusun</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-grow w-full">
+
+        <!-- SECTION 1: PENDAHULUAN -->
+        <section id="sec-pendahuluan" class="space-y-8 animate-fadeIn">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-800 via-sky-900 to-slate-900 text-white p-6 sm:p-10 shadow-xl">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-[220px] pointer-events-none">
+                    <i class="fa-solid fa-water"></i>
+                </div>
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <span class="inline-block px-3 py-1 bg-amber-400 text-slate-900 font-extrabold text-xs rounded-full uppercase tracking-wider">
+                        Apersepsi Fisika Fluida
+                    </span>
+                    <h2 class="text-2xl sm:text-4xl font-black leading-tight">
+                        Mengapa Dinding Bawah Bendungan Selalu Dibuat Lebih Tebal Dibandingkan Bagian Atas?
+                    </h2>
+                    <p class="text-sky-100 text-sm sm:text-base leading-relaxed">
+                        Pernahkah kamu memperhatikan struktur tembok bendungan air waduk atau merasakan telingamu berdengung saat menyelam ke dasar kolam yang dalam? Hal ini terjadi akibat adanya <strong>Tekanan Hidrostatis</strong> — tekanan yang disebabkan oleh berat zat cair itu sendiri. Mari kita eksplorasi prinsip sains di baliknya!
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="switchTab('lab')" class="bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold px-5 py-2.5 rounded-xl shadow-lg transition-all flex items-center space-x-2">
+                            <span>Buka Lab Virtual</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button onclick="switchTab('materi')" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold px-5 py-2.5 rounded-xl transition-all">
+                            Pelajari Konsep
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Objectives & Competencies -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Capaian Pembelajaran -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 hover:border-sky-300 transition-all">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800">Capaian Pembelajaran (CP)</h3>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Peserta didik mampu memahami konsep tekanan pada zat cair (tek. hidrostatis, hukum Pascal, dan hukum Archimedes) serta penerapannya dalam teknologi kehidupan sehari-hari melalui penyelidikan digital dan eksplorasi ilmiah.
+                    </p>
+                </div>
+
+                <!-- Tujuan Pembelajaran -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 hover:border-sky-300 transition-all">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800">Tujuan Pembelajaran</h3>
+                    </div>
+                    <ul class="space-y-2 text-slate-600 text-sm">
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-circle-check text-sky-500 mt-1"></i>
+                            <span>Menjelaskan faktor-faktor yang mempengaruhi Tekanan Hidrostatis (P<sub>h</sub> = ρ . g . h).</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-circle-check text-sky-500 mt-1"></i>
+                            <span>Menganalisis prinsip kerja Hukum Pascal pada dongkrak dan rem hidrolik.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-circle-check text-sky-500 mt-1"></i>
+                            <span>Memahami syarat benda mengapung, melayang, dan tenggelam berdasarkan Hukum Archimedes.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <i class="fa-solid fa-circle-check text-sky-500 mt-1"></i>
+                            <span>Melakukan eksperimen virtual untuk mengukur tekanan pada berbagai kedalaman fluida.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Interactive Quick Poll / Brainstorming -->
+            <div class="bg-gradient-to-r from-sky-600 to-cyan-600 rounded-2xl p-6 text-white shadow-md">
+                <h3 class="text-lg font-bold mb-3 flex items-center space-x-2">
+                    <i class="fa-solid fa-lightbulb text-amber-300"></i>
+                    <span>Tebakan Cepat: Lubang Manakah yang Memancarkan Air Paling Jauh?</span>
+                </h3>
+                <p class="text-sm text-sky-50 font-light mb-4">
+                    Sebuah botol plastik tinggi diisi air penuh lalu dilubangi di 3 posisi kedalaman yang berbeda: Lubang A (dekat permukaan), Lubang B (tengah), dan Lubang C (dekat dasar). Pancaran air dari lubang manakah yang terlontar paling jauh?
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <button onclick="checkApersepsi(1)" class="p-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-left transition-all flex items-center space-x-3 group">
+                        <div class="w-7 h-7 rounded-full bg-white text-sky-700 font-bold flex items-center justify-center shrink-0">A</div>
+                        <span class="text-xs sm:text-sm font-semibold group-hover:text-amber-200">Lubang A (Paling Atas)</span>
+                    </button>
+                    <button onclick="checkApersepsi(2)" class="p-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-left transition-all flex items-center space-x-3 group">
+                        <div class="w-7 h-7 rounded-full bg-white text-sky-700 font-bold flex items-center justify-center shrink-0">B</div>
+                        <span class="text-xs sm:text-sm font-semibold group-hover:text-amber-200">Lubang B (Tengah Botol)</span>
+                    </button>
+                    <button onclick="checkApersepsi(3)" class="p-3.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-left transition-all flex items-center space-x-3 group">
+                        <div class="w-7 h-7 rounded-full bg-white text-sky-700 font-bold flex items-center justify-center shrink-0">C</div>
+                        <span class="text-xs sm:text-sm font-semibold group-hover:text-amber-200">Lubang C (Paling Dasar)</span>
+                    </button>
+                </div>
+                <div id="apersepsi-feedback" class="hidden mt-4 p-4 rounded-xl bg-white text-slate-800 text-sm font-medium shadow-sm transition-all"></div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: MATERI & KONSEP -->
+        <section id="sec-materi" class="hidden space-y-8 animate-fadeIn">
+            <!-- Header Title -->
+            <div class="border-b border-slate-200 pb-4">
+                <span class="text-xs font-extrabold text-sky-600 uppercase tracking-widest">Tiga Pilar Utama Tekanan Fluida</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-800">Konsep Fisika Tekanan Zat Cair</h2>
+            </div>
+
+            <!-- Concept 1: Tekanan Hidrostatis -->
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    <div class="md:col-span-2 space-y-4">
+                        <div class="inline-flex items-center space-x-2 px-3 py-1 bg-sky-100 text-sky-800 rounded-full text-xs font-extrabold">
+                            <i class="fa-solid fa-1"></i>
+                            <span>Prinsip Utama</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800">1. Tekanan Hidrostatis (P<sub>h</sub>)</h3>
+                        <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                            <strong class="text-sky-700">Tekanan Hidrostatis</strong> adalah tekanan yang diberikan oleh zat cair yang diam pada setiap titik di dalam zat cair tersebut akibat gaya gravitasi bumi pada massa zat cair itu.
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-xl border-l-4 border-sky-500 text-sm text-slate-700 space-y-1">
+                            <p class="font-bold text-sky-800">Faktor yang Mempengaruhi Tekanan Hidrostatis:</p>
+                            <ul class="list-disc list-inside space-y-1 text-slate-600 text-xs sm:text-sm">
+                                <li><strong>Kedalaman (h):</strong> Semakin dalam posisi titik dari permukaan, semakin besar tekanannya.</li>
+                                <li><strong>Massa Jenis Zat Cair (ρ):</strong> Semakin pekat/rapat zat cair, semakin besar tekanannya.</li>
+                                <li><strong>Percepatan Gravitasi (g):</strong> Nilai gravitasi tempat zat cair berada.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Formula Box -->
+                    <div class="bg-gradient-to-br from-sky-600 to-sky-800 text-white p-6 rounded-2xl shadow-lg text-center space-y-3">
+                        <span class="text-xs font-semibold uppercase tracking-widest text-sky-200">Rumus Tekanan Hidrostatis</span>
+                        <div class="text-2xl sm:text-3xl font-black tracking-widest bg-white/10 py-3 px-4 rounded-xl border border-white/20">
+                            P<sub>h</sub> = ρ . g . h
+                        </div>
+                        <div class="text-xs text-sky-100 text-left space-y-1 pt-2 border-t border-sky-500/50">
+                            <p><strong>P<sub>h</sub></strong> = Tekanan hidrostatis (N/m² atau Pascal / Pa)</p>
+                            <p><strong>ρ</strong> = Massa jenis zat cair (kg/m³)</p>
+                            <p><strong>g</strong> = Gravitasi (m/s² atau N/kg, umum = 9.8 / 10)</p>
+                            <p><strong>h</strong> = Kedalaman diukur dari permukaan (m)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concept 2 & 3: Hukum Pascal & Archimedes -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Hukum Pascal -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 hover:shadow-md transition-all">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-compress"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-600 block">Prinsip Bejana Tertutup</span>
+                            <h3 class="text-lg font-bold text-slate-800">2. Hukum Pascal</h3>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                        <i>"Tekanan yang diberikan pada zat cair di dalam ruang tertutup akan diteruskan ke segala arah dengan sama besar."</i>
+                    </p>
+                    <div class="bg-cyan-50/70 p-3.5 rounded-xl border border-cyan-200 text-xs font-mono font-bold text-cyan-900 text-center">
+                        P<sub>1</sub> = P<sub>2</sub> &nbsp;→&nbsp; (F<sub>1</sub> / A<sub>1</sub>) = (F<sub>2</sub> / A<sub>2</sub>)
+                    </div>
+                    <p class="text-xs text-slate-500">
+                        <strong>Aplikasi:</strong> Dongkrak hidrolik mobil, mesin pengangkat mobil di bengkel, rem cakram hidrolik, dan kemudi kapal.
+                    </p>
+                </div>
+
+                <!-- Hukum Archimedes -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 hover:shadow-md transition-all">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-ship"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 block">Gaya Apung Atas</span>
+                            <h3 class="text-lg font-bold text-slate-800">3. Hukum Archimedes</h3>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                        <i>"Benda yang dicelupkan sebagian atau seluruhnya ke dalam zat cair akan mengalami gaya ke atas (F<sub>a</sub>) sebesar berat zat cair yang dipindahkan."</i>
+                    </p>
+                    <div class="bg-indigo-50/70 p-3.5 rounded-xl border border-indigo-200 text-xs font-mono font-bold text-indigo-900 text-center">
+                        F<sub>a</sub> = ρ<sub>cair</sub> . g . V<sub>tercelup</sub>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-[11px] text-center font-semibold text-slate-700 pt-1">
+                        <div class="p-1.5 bg-slate-100 rounded-lg">Mengapung (ρ<sub>b</sub> &lt; ρ<sub>f</sub>)</div>
+                        <div class="p-1.5 bg-slate-100 rounded-lg">Melayang (ρ<sub>b</sub> = ρ<sub>f</sub>)</div>
+                        <div class="p-1.5 bg-slate-100 rounded-lg">Tenggelam (ρ<sub>b</sub> &gt; ρ<sub>f</sub>)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Hydrostatic Calculator -->
+            <div class="bg-sky-50 border border-sky-200 rounded-2xl p-6 sm:p-8 space-y-6">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">Kalkulator Hitung Tekanan Hidrostatis (P<sub>h</sub>)</h3>
+                        <p class="text-xs text-slate-600">Simulasikan nilai massa jenis zat cair, kedalaman, dan gravitasi secara langsung.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Massa Jenis Input -->
+                    <div class="bg-white p-4 rounded-xl border border-sky-100 space-y-2 shadow-sm">
+                        <label class="text-xs font-bold text-slate-700 block">Jenis Fluida / Massa Jenis (ρ)</label>
+                        <select id="calc-rho-select" onchange="updateCalculatorPreset()" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-xs font-semibold text-slate-800 outline-none mb-2">
+                            <option value="1000">Air Murni (1000 kg/m³)</option>
+                            <option value="800">Minyak Goreng (800 kg/m³)</option>
+                            <option value="1025">Air Laut (1025 kg/m³)</option>
+                            <option value="1260">Gliserin (1260 kg/m³)</option>
+                            <option value="13600">Raksa (13600 kg/m³)</option>
+                        </select>
+                        <div class="flex items-center space-x-2">
+                            <input type="range" id="calc-rho" min="500" max="14000" step="50" value="1000" class="w-full accent-sky-600" oninput="updateCalculator()">
+                            <span id="calc-rho-val" class="font-bold text-sky-700 text-xs w-20 text-right">1000 kg/m³</span>
+                        </div>
+                    </div>
+
+                    <!-- Kedalaman Input -->
+                    <div class="bg-white p-4 rounded-xl border border-sky-100 space-y-2 shadow-sm">
+                        <label class="text-xs font-bold text-slate-700 block">Kedalaman dari Permukaan (h)</label>
+                        <div class="flex items-center space-x-2 pt-6">
+                            <input type="range" id="calc-h" min="0.1" max="50" step="0.5" value="5" class="w-full accent-sky-600" oninput="updateCalculator()">
+                            <span id="calc-h-val" class="font-bold text-sky-700 text-xs w-16 text-right">5 meter</span>
+                        </div>
+                    </div>
+
+                    <!-- Result Box -->
+                    <div class="bg-white p-4 rounded-xl border-2 border-sky-500 flex flex-col justify-center items-center shadow-sm">
+                        <span class="text-xs font-bold text-slate-500 uppercase">Hasil Tekanan Hidrostatis (P<sub>h</sub>)</span>
+                        <div id="calc-p-res" class="text-2xl sm:text-3xl font-black text-sky-700">50.000 Pa</div>
+                        <span id="calc-p-kpa" class="text-[11px] text-slate-500 font-semibold">( 50,0 kPa / 0,49 atm )</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: LABORATORIUM VIRTUAL -->
+        <section id="sec-lab" class="hidden space-y-8 animate-fadeIn">
+            <!-- Header -->
+            <div class="border-b border-slate-200 pb-4 flex flex-wrap justify-between items-end gap-2">
+                <div>
+                    <span class="text-xs font-extrabold text-sky-600 uppercase tracking-widest">Praktikum Digital Interaktif</span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-800">Simulasi Lab Tekanan Hidrostatis</h2>
+                </div>
+                <button onclick="resetLab()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl transition-all flex items-center space-x-2">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Reset Simulasi</span>
+                </button>
+            </div>
+
+            <!-- Main Interactive Lab Canvas & Controls -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Controls Panel (Left) -->
+                <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <h3 class="text-lg font-bold text-slate-800 border-b border-slate-100 pb-3 flex items-center space-x-2">
+                        <i class="fa-solid fa-sliders text-sky-600"></i>
+                        <span>Pengaturan Parameter Fluida</span>
+                    </h3>
+
+                    <!-- Choice 1: Jenis Zat Cair -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-700 block">Pilih Jenis Zat Cair dalam Tangki</label>
+                        <select id="lab-fluid" onchange="updateLabSimulation()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs sm:text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-sky-500 outline-none">
+                            <option value="air">Air Murni (ρ = 1000 kg/m³)</option>
+                            <option value="minyak">Minyak Goreng (ρ = 800 kg/m³)</option>
+                            <option value="gliserin">Gliserin (ρ = 1260 kg/m³)</option>
+                            <option value="raksa">Raksa / Mercury (ρ = 13600 kg/m³)</option>
+                        </select>
+                    </div>
+
+                    <!-- Control 1: Kedalaman Sensor (h) -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center text-xs font-bold">
+                            <span class="text-slate-700">Kedalaman Sensor / Penyelam (h)</span>
+                            <span id="lab-h-display" class="text-sky-700 font-extrabold text-sm">2.0 meter</span>
+                        </div>
+                        <input type="range" id="lab-h-slider" min="0.1" max="10.0" step="0.1" value="2.0" oninput="updateLabSimulation()" class="w-full accent-sky-600 cursor-pointer">
+                        <div class="flex justify-between text-[10px] text-slate-400 font-medium">
+                            <span>0.1 m (Permukaan)</span>
+                            <span>10.0 m (Dasar Tangki)</span>
+                        </div>
+                    </div>
+
+                    <!-- Control 2: Gravitasi (g) -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center text-xs font-bold">
+                            <span class="text-slate-700">Percepatan Gravitasi (g)</span>
+                            <span id="lab-g-display" class="text-sky-700 font-extrabold text-sm">9.8 m/s² (Bumi)</span>
+                        </div>
+                        <input type="range" id="lab-g-slider" min="1.6" max="24.8" step="0.1" value="9.8" oninput="updateLabSimulation()" class="w-full accent-sky-600 cursor-pointer">
+                        <div class="flex justify-between text-[10px] text-slate-400 font-medium">
+                            <span>1.6 m/s² (Bulan)</span>
+                            <span>9.8 m/s² (Bumi)</span>
+                            <span>24.8 m/s² (Yupiter)</span>
+                        </div>
+                    </div>
+
+                    <!-- Record Data Button -->
+                    <button onclick="recordLabData()" class="w-full py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 text-sm">
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span>Catat Hasil Ke Tabel Pengamatan</span>
+                    </button>
+                </div>
+
+                <!-- Simulation Visualizer (Right) -->
+                <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <h3 class="text-base font-bold text-slate-800 flex items-center space-x-2">
+                            <i class="fa-solid fa-gauge-high text-sky-600"></i>
+                            <span>Visualisasi Tangki & Manometer Sensor</span>
+                        </h3>
+                        <span id="lab-p-badge" class="px-3 py-1 bg-sky-100 text-sky-800 font-extrabold text-xs sm:text-sm rounded-full">
+                            P<sub>h</sub> = 19.600 Pa
+                        </span>
+                    </div>
+
+                    <!-- Interactive Canvas Container -->
+                    <div class="relative w-full h-72 sm:h-80 bg-slate-900 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center">
+                        <canvas id="labCanvas" class="w-full h-full block"></canvas>
+                    </div>
+
+                    <!-- Real-time Meter Readings -->
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                            <span class="text-[10px] text-slate-500 uppercase font-bold block">Massa Jenis (ρ)</span>
+                            <span id="meter-rho" class="text-xs sm:text-sm font-black text-slate-800">1000 kg/m³</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                            <span class="text-[10px] text-slate-500 uppercase font-bold block">Kedalaman (h)</span>
+                            <span id="meter-h" class="text-xs sm:text-sm font-black text-slate-800">2.0 m</span>
+                        </div>
+                        <div class="bg-sky-50 p-3 rounded-xl border border-sky-200">
+                            <span class="text-[10px] text-sky-600 uppercase font-bold block">Tekanan Hidrostatis</span>
+                            <span id="meter-ph" class="text-xs sm:text-sm font-black text-sky-700">19,6 kPa</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table of Observation Data -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
+                        <i class="fa-solid fa-table text-sky-600"></i>
+                        <span>Tabel Hasil Pengamatan Eksperimen</span>
+                    </h3>
+                    <button onclick="clearLabTable()" class="text-xs font-semibold text-rose-600 hover:text-rose-700 flex items-center space-x-1">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <span>Hapus Tabel</span>
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs sm:text-sm">
+                        <thead class="bg-slate-100 text-slate-700 font-bold uppercase text-[11px]">
+                            <tr>
+                                <th class="p-3 rounded-l-lg">No</th>
+                                <th class="p-3">Zat Cair</th>
+                                <th class="p-3">Massa Jenis (ρ)</th>
+                                <th class="p-3">Kedalaman (h)</th>
+                                <th class="p-3">Gravitasi (g)</th>
+                                <th class="p-3 rounded-r-lg">Tekanan Hidrostatis (P<sub>h</sub>)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lab-table-body" class="divide-y divide-slate-100 text-slate-600 font-medium">
+                            <!-- Rows added dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: KUIS INTERAKTIF -->
+        <section id="sec-kuis" class="hidden space-y-8 animate-fadeIn">
+            <div class="border-b border-slate-200 pb-4 flex justify-between items-end">
+                <div>
+                    <span class="text-xs font-extrabold text-sky-600 uppercase tracking-widest">Uji Pemahaman Mandiri</span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-800">Kuis Evaluasi Tekanan Zat Cair</h2>
+                </div>
+                <div id="quiz-score-badge" class="hidden px-4 py-2 bg-emerald-100 text-emerald-800 font-black rounded-xl text-sm">
+                    Skor: <span id="quiz-score-val">0</span> / 100
+                </div>
+            </div>
+
+            <div id="quiz-container" class="space-y-6">
+                <!-- Question 1 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <p class="font-bold text-slate-800 text-sm sm:text-base">
+                        1. Seorang penyelam berada pada kedalaman 8 meter di dalam air laut (ρ = 1.025 kg/m³). Jika percepatan gravitasi bumi adalah 10 m/s², berapakah tekanan hidrostatis yang dialami penyelam tersebut?
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                        <button onclick="selectAnswer(1, 'A', false)" class="q1-btn p-3 rounded-xl border border-slate-200 hover:bg-sky-50 text-left transition-all font-medium">A. 8.200 Pa</button>
+                        <button onclick="selectAnswer(1, 'B', false)" class="q1-btn p-3 rounded-xl border border-slate-200 hover:bg-sky-50 text-left transition-all font-medium">B. 82.000 Pa</button>
+                        <button onclick="selectAnswer(1, 'C', true)" class="q1-btn p-3 rounded-xl border border-slate-200 hover:bg-sky-50 text-left transition-all font-medium">C. 82.000 Pa (82 kPa)</button>
+                        <button onclick="selectAnswer(1, 'D', false)" class="q1-btn p-3 rounded-xl border border-slate-200 hover:bg-sky-50 text-left transition-all font-medium">D. 102.500 Pa</button>
+                    </div>
+                    <div id="q1-feedback" class="hidden text-xs font-bold p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <p class="font-bold text-slate-800 text-sm sm:text-base">
+                        2. Mesin hidrolik pencuci mobil bekerja berdasarkan hukum fisika yaitu...
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                        <button onclick="selectAnswer(2, 'A', false)" class="q2-btn p-3 rounded-xl border border-slate-200 hover:bg-sky-50 text-left transition-all font-medium">A. Hukum Newton I</button>
+                        <button onclick="selectAnswer(2, 'B', true)" class="q2-btn p-3 rounded-xl border border-slate-200 hover:bg-sky-50 text-left transition-all font-medium">B. Hukum Pascal</button>
+                        <button onclick="selectAnswer(2, 'C', false)" class="q2-btn p-3 rounded-xl border border-slate-200 hover:bg-sky-50 text-left transition-all font-medium">C. Hukum Archimedes</button>
+                        <button onclick="selectAnswer(2, 'D', false)" class="q2-btn p-3 rounded-xl border border-slate-200 hover:bg-sky-50 text-left transition-all font-medium">D. Hukum Boyles</button>
+                    </div>
+                    <div id="q2-feedback" class="hidden text-xs font-bold p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <p class="font-bold text-slate-800 text-sm sm:text-base">
+                        3. Sebuah benda akan mengapung di atas permukaan air apabila...
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                        <button onclick="selectAnswer(3, 'A', true)" class="q3-btn p-3 rounded-xl border border-slate-200 hover:bg-sky-50 text-left transition-all font-medium">A. Massa jenis benda lebih kecil dari massa jenis zat cair (ρ<sub>benda</sub> &lt; ρ<sub>cair</sub>)</button>
+                        <button onclick="selectAnswer(3, 'B', false)" class="q3-btn p-3 rounded-xl border border-slate-200 hover:bg-sky-50 text-left transition-all font-medium">B. Massa jenis benda lebih besar dari massa jenis zat cair (ρ<sub>benda</sub> &gt; ρ<sub>cair</sub>)</button>
+                        <button onclick="selectAnswer(3, 'C', false)" class="q3-btn p-3 rounded-xl border border-slate-200 hover:bg-sky-50 text-left transition-all font-medium">C. Gaya ke atas lebih kecil dari berat benda (F<sub>a</sub> &lt; W)</button>
+                        <button onclick="selectAnswer(3, 'D', false)" class="q3-btn p-3 rounded-xl border border-slate-200 hover:bg-sky-50 text-left transition-all font-medium">D. Volume benda lebih kecil dari volume zat cair</button>
+                    </div>
+                    <div id="q3-feedback" class="hidden text-xs font-bold p-3 rounded-lg"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: IDENTITAS PENYUSUN -->
+        <section id="sec-penyusun" class="hidden space-y-8 animate-fadeIn">
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm max-w-3xl mx-auto space-y-6 text-center">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-sky-600 to-cyan-500 text-white font-black text-3xl flex items-center justify-center mx-auto shadow-lg shadow-sky-500/20">
+                    MK
+                </div>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-800">Mohamad Kholish Widodo, S.Pd., M.Pd.</h2>
+                    <p class="text-sky-600 font-bold text-sm">Guru IPA &amp; Pengembang Media Pembelajaran Digital</p>
+                    <p class="text-slate-500 text-xs mt-1">MTsN 1 Kota Malang — Jawa Timur</p>
+                </div>
+                <div class="border-t border-slate-100 pt-6 text-xs text-slate-600 leading-relaxed max-w-xl mx-auto space-y-3">
+                    <p>
+                        Media Pembelajaran Interaktif ini dirancang khusus untuk membantu siswa Kelas IX SMP/MTs dalam memahami konsep Tekanan Zat Cair (Tekanan Hidrostatis, Hukum Pascal, dan Hukum Archimedes) secara intuitif melalui visualisasi simulasi laboratorium digital.
+                    </p>
+                    <div class="inline-flex items-center space-x-2 text-slate-400 font-medium">
+                        <i class="fa-solid fa-code"></i>
+                        <span>Pengembangan Materi Ajar Sains Digital SMP/MTs</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 font-medium">
+            <p>© 2026 Media Ajar Interaktif IPA IX — Tekanan Zat Cair. MTsN 1 Kota Malang.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Tab Navigation
+        function switchTab(tabId) {
+            const sections = ['pendahuluan', 'materi', 'lab', 'kuis', 'penyusun'];
+            sections.forEach(id => {
+                const sec = document.getElementById('sec-' + id);
+                const btn = document.getElementById('tab-' + id);
+                if (id === tabId) {
+                    sec.classList.remove('hidden');
+                    btn.classList.add('active');
+                    btn.classList.remove('text-slate-600');
+                } else {
+                    sec.classList.add('hidden');
+                    btn.classList.remove('active');
+                    btn.classList.add('text-slate-600');
+                }
+            });
+
+            if (tabId === 'lab') {
+                setTimeout(updateLabSimulation, 50);
+            }
+        }
+
+        // Apersepsi Quick Poll
+        function checkApersepsi(option) {
+            const fb = document.getElementById('apersepsi-feedback');
+            fb.classList.remove('hidden');
+            if (option === 3) {
+                fb.className = "mt-4 p-4 rounded-xl bg-emerald-100 text-emerald-900 text-sm font-medium border border-emerald-300 animate-fadeIn";
+                fb.innerHTML = "<strong>Benar sekali! (Lubang C)</strong><br>Semakin dalam posisi lubang dari permukaan air (h), maka tekanan hidrostatisnya (P<sub>h</sub> = ρ . g . h) semakin besar, sehingga air memancar paling kuat dan paling jauh!";
+            } else {
+                fb.className = "mt-4 p-4 rounded-xl bg-amber-100 text-amber-900 text-sm font-medium border border-amber-300 animate-fadeIn";
+                fb.innerHTML = "<strong>Hampir tepat!</strong><br>Coba ingat lagi: semakin dalam kita menyelam dari permukaan air, apakah tekanan air terasa semakin besar atau kecil? Lubang C berada di posisi paling dasar (kedalaman h paling besar).";
+            }
+        }
+
+        // Calculator Logic
+        function updateCalculatorPreset() {
+            const sel = document.getElementById('calc-rho-select').value;
+            document.getElementById('calc-rho').value = sel;
+            updateCalculator();
+        }
+
+        function updateCalculator() {
+            const rho = parseFloat(document.getElementById('calc-rho').value);
+            const h = parseFloat(document.getElementById('calc-h').value);
+            const g = 9.8;
+
+            document.getElementById('calc-rho-val').innerText = rho + " kg/m³";
+            document.getElementById('calc-h-val').innerText = h + " meter";
+
+            const p = rho * g * h;
+            const pkpa = (p / 1000).toFixed(1);
+            const patm = (p / 101325).toFixed(2);
+
+            document.getElementById('calc-p-res').innerText = p.toLocaleString('id-ID', {maximumFractionDigits:0}) + " Pa";
+            document.getElementById('calc-p-kpa').innerText = `( ${pkpa} kPa / ${patm} atm )`;
+        }
+
+        // Lab Virtual Simulation & Canvas
+        const fluidData = {
+            air: { name: 'Air Murni', rho: 1000, color: 'rgba(2, 132, 199, 0.65)' },
+            minyak: { name: 'Minyak Goreng', rho: 800, color: 'rgba(217, 119, 6, 0.65)' },
+            gliserin: { name: 'Gliserin', rho: 1260, color: 'rgba(14, 165, 233, 0.45)' },
+            raksa: { name: 'Raksa / Mercury', rho: 13600, color: 'rgba(100, 116, 139, 0.85)' }
+        };
+
+        let labTableIndex = 1;
+
+        function updateLabSimulation() {
+            const fluidKey = document.getElementById('lab-fluid').value;
+            const fluid = fluidData[fluidKey];
+            const h = parseFloat(document.getElementById('lab-h-slider').value);
+            const g = parseFloat(document.getElementById('lab-g-slider').value);
+
+            document.getElementById('lab-h-display').innerText = h.toFixed(1) + " meter";
+            document.getElementById('lab-g-display').innerText = g.toFixed(1) + " m/s²";
+
+            const ph = fluid.rho * g * h;
+            const phKpa = (ph / 1000).toFixed(1);
+
+            document.getElementById('lab-p-badge').innerHTML = `P<sub>h</sub> = ${ph.toLocaleString('id-ID', {maximumFractionDigits:0})} Pa`;
+            document.getElementById('meter-rho').innerText = fluid.rho + " kg/m³";
+            document.getElementById('meter-h').innerText = h.toFixed(1) + " m";
+            document.getElementById('meter-ph').innerText = phKpa + " kPa";
+
+            // Draw Canvas
+            const canvas = document.getElementById('labCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            // Adjust canvas size for high DPI
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+
+            const W = canvas.width;
+            const H = canvas.height;
+
+            ctx.clearRect(0, 0, W, H);
+
+            // Tank dimensions
+            const tankX = W * 0.15;
+            const tankY = H * 0.15;
+            const tankW = W * 0.7;
+            const tankH = H * 0.75;
+
+            // Fluid level
+            ctx.fillStyle = fluid.color;
+            ctx.fillRect(tankX, tankY + 10, tankW, tankH - 10);
+
+            // Tank Outline
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(tankX, tankY);
+            ctx.lineTo(tankX, tankY + tankH);
+            ctx.lineTo(tankX + tankW, tankY + tankH);
+            ctx.lineTo(tankX + tankW, tankY);
+            ctx.stroke();
+
+            // Depth marker calculation
+            const depthRatio = h / 10.0;
+            const sensorY = (tankY + 15) + depthRatio * (tankH - 30);
+            const sensorX = tankX + tankW * 0.5;
+
+            // Sensor Line
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(sensorX, tankY - 10);
+            ctx.lineTo(sensorX, sensorY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Depth Arrow Indicator
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(tankX + 25, tankY + 15);
+            ctx.lineTo(tankX + 25, sensorY);
+            ctx.stroke();
+
+            // Depth Label
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = 'bold 11px Inter, sans-serif';
+            ctx.fillText(`h = ${h.toFixed(1)}m`, tankX + 32, (tankY + 15 + sensorY) / 2);
+
+            // Sensor probe
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(sensorX, sensorY, 9, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        function recordLabData() {
+            const fluidKey = document.getElementById('lab-fluid').value;
+            const fluid = fluidData[fluidKey];
+            const h = parseFloat(document.getElementById('lab-h-slider').value);
+            const g = parseFloat(document.getElementById('lab-g-slider').value);
+            const ph = fluid.rho * g * h;
+
+            const tbody = document.getElementById('lab-table-body');
+            const row = document.createElement('tr');
+            row.className = "hover:bg-slate-50 transition-all";
+            row.innerHTML = `
+                <td class="p-3 font-bold">${labTableIndex++}</td>
+                <td class="p-3 font-semibold text-slate-800">${fluid.name}</td>
+                <td class="p-3">${fluid.rho} kg/m³</td>
+                <td class="p-3">${h.toFixed(1)} m</td>
+                <td class="p-3">${g.toFixed(1)} m/s²</td>
+                <td class="p-3 font-bold text-sky-700">${ph.toLocaleString('id-ID', {maximumFractionDigits:0})} Pa</td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        function clearLabTable() {
+            document.getElementById('lab-table-body').innerHTML = '';
+            labTableIndex = 1;
+        }
+
+        function resetLab() {
+            document.getElementById('lab-fluid').value = 'air';
+            document.getElementById('lab-h-slider').value = 2.0;
+            document.getElementById('lab-g-slider').value = 9.8;
+            updateLabSimulation();
+        }
+
+        // Quiz Logic
+        const quizScores = { 1: 0, 2: 0, 3: 0 };
+
+        function selectAnswer(qNum, opt, isCorrect) {
+            const btns = document.querySelectorAll(`.q${qNum}-btn`);
+            btns.forEach(b => b.classList.remove('bg-emerald-100', 'bg-rose-100', 'border-emerald-500', 'border-rose-500'));
+
+            const fb = document.getElementById(`q${qNum}-feedback`);
+            fb.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'bg-rose-100', 'text-rose-800');
+
+            if (isCorrect) {
+                fb.classList.add('bg-emerald-100', 'text-emerald-800');
+                fb.innerHTML = "✓ Jawaban Tepat!";
+                quizScores[qNum] = 33.3;
+            } else {
+                fb.classList.add('bg-rose-100', 'text-rose-800');
+                fb.innerHTML = "✕ Jawaban Kurang Tepat. Silakan periksa kembali konsep materi.";
+                quizScores[qNum] = 0;
+            }
+
+            const totalScore = Math.round(Object.values(quizScores).reduce((a, b) => a + b, 0));
+            document.getElementById('quiz-score-badge').classList.remove('hidden');
+            document.getElementById('quiz-score-val').innerText = totalScore > 99 ? 100 : totalScore;
+        }
+
+        // Window Resize Handler for Canvas
+        window.addEventListener('resize', updateLabSimulation);
+
+        // Initial Load
+        window.onload = function() {
+            updateCalculator();
+            updateLabSimulation();
+        };
+    </script>
+</body>
+</html>
